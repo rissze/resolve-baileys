@@ -5,7 +5,7 @@
 **LID ↔ JID resolver & contact store untuk [Baileys](https://github.com/WhiskeySockets/Baileys)**
 
 [![npm](https://img.shields.io/npm/v/resolve-baileys?color=crimson&logo=npm&style=flat-square)](https://www.npmjs.com/package/resolve-baileys)
-[![license](https://img.shields.io/github/license/username/resolve-baileys?style=flat-square)](LICENSE)
+[![license](https://img.shields.io/github/license/rissze/resolve-baileys?style=flat-square)](LICENSE)
 [![baileys](https://img.shields.io/badge/baileys-%3E%3D7.0.0--rc.9-green?style=flat-square&logo=whatsapp)](https://github.com/WhiskeySockets/Baileys)
 [![ESM](https://img.shields.io/badge/ESM-supported-blue?style=flat-square)](https://nodejs.org/api/esm.html)
 [![CJS](https://img.shields.io/badge/CJS-supported-blue?style=flat-square)](https://nodejs.org/api/modules.html)
@@ -31,7 +31,7 @@
 ## 📦 Install
 
 ```bash
-npm install resolve-baileys
+npm install github:rissze/resolve-baileys
 ```
 
 > **Requires** `baileys >= 7.0.0-rc.9` dan `node >= 18`
@@ -87,10 +87,10 @@ Inject method langsung ke instance `conn` dan bind store sekaligus. **Cara yang 
 ```js
 attachToConn(conn);
 
-conn.getJid('xxx@lid')                        // → 'xxx@s.whatsapp.net'
-conn.getLid('xxx@s.whatsapp.net')             // → 'xxx@lid'
+conn.getJid('xxx@lid')                              // → 'xxx@s.whatsapp.net'
+conn.getLid('xxx@s.whatsapp.net')                   // → 'xxx@lid'
 conn.setLidMapping('xxx@lid', 'yyy@s.whatsapp.net') // manual store
-conn.decodeJid('xxx:0@s.whatsapp.net')        // → 'xxx@s.whatsapp.net'
+conn.decodeJid('xxx:0@s.whatsapp.net')              // → 'xxx@s.whatsapp.net'
 ```
 
 ---
@@ -100,11 +100,8 @@ conn.decodeJid('xxx:0@s.whatsapp.net')        // → 'xxx@s.whatsapp.net'
 Resolve `xxx@lid` ke `xxx@s.whatsapp.net`. Jika bukan LID, dikembalikan as-is.
 
 ```js
-getJid(conn, '1234@lid')
-// → '628xxx@s.whatsapp.net'
-
-getJid(conn, '628xxx@s.whatsapp.net')
-// → '628xxx@s.whatsapp.net' (as-is)
+getJid(conn, '1234@lid')              // → '628xxx@s.whatsapp.net'
+getJid(conn, '628xxx@s.whatsapp.net') // → '628xxx@s.whatsapp.net' (as-is)
 ```
 
 ---
@@ -114,8 +111,7 @@ getJid(conn, '628xxx@s.whatsapp.net')
 Kebalikan dari `getJid`. Resolve `xxx@s.whatsapp.net` ke `xxx@lid`.
 
 ```js
-getLid(conn, '628xxx@s.whatsapp.net')
-// → '1234@lid'
+getLid(conn, '628xxx@s.whatsapp.net') // → '1234@lid'
 ```
 
 ---
@@ -146,8 +142,7 @@ storeMapping('xxx@lid', '628xxx@s.whatsapp.net');
 Strip device suffix dari JID.
 
 ```js
-decodeJid('628xxx:5@s.whatsapp.net')
-// → '628xxx@s.whatsapp.net'
+decodeJid('628xxx:5@s.whatsapp.net') // → '628xxx@s.whatsapp.net'
 ```
 
 ---
@@ -162,7 +157,7 @@ Setiap panggilan `getJid` / `getLid` melewati 3 lapis secara berurutan:
       ▼
 ┌─────────────┐   hit   ┌──────────────────┐
 │  NodeCache  │────────▶│  return result   │
-│  (O(1))     │         └──────────────────┘
+│   (O(1))    │         └──────────────────┘
 └──────┬──────┘
        │ miss
        ▼
@@ -210,9 +205,9 @@ Karena Baileys v7 adalah ESM-only, CJS wrapper menggunakan `dynamic import()`. S
 const { attachToConn, getJid } = require('resolve-baileys');
 
 const conn = makeWASocket({ ... });
-await attachToConn(conn); // async di CJS
+await attachToConn(conn);
 
-const jid = await conn.getJid('xxx@lid'); // async
+const jid = await conn.getJid('xxx@lid');
 ```
 
 > **Rekomendasi:** Gunakan ESM (`"type": "module"`) untuk pengalaman terbaik — semua fungsi sync.
@@ -233,23 +228,6 @@ resolve-baileys/
 ├── index.cjs         ← CJS wrapper
 ├── index.d.ts        ← TypeScript declarations
 └── package.json
-```
-
----
-
-## 📣 Channel Update
-
-Ikuti channel WhatsApp kami untuk mendapatkan update terbaru:
-
-> Tambahkan kode berikut di bot kamu agar pengguna otomatis follow channel saat menggunakan bot:
-
-```js
-conn.ev.on('connection.update', ({ connection }) => {
-  if (connection === 'open') {
-    conn.newsletterFollow('120363339641966061@newsletter')
-      .catch(() => null);
-  }
-});
 ```
 
 ---
