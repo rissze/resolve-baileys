@@ -1,0 +1,38 @@
+{
+  "name": "resolve-baileys",
+  "version": "1.0.0",
+  "description": "LID ↔ JID resolver and contact store for Baileys WhatsApp library",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./index.d.ts",
+        "default": "./src/index.js"
+      },
+      "require": {
+        "types": "./index.d.ts",
+        "default": "./index.cjs"
+      }
+    }
+  },
+  "main": "./index.cjs",
+  "module": "./src/index.js",
+  "types": "./index.d.ts",
+  "files": [
+    "src",
+    "index.cjs",
+    "index.d.ts"
+  ],
+  "keywords": ["baileys", "whatsapp", "lid", "jid", "resolver", "store"],
+  "author": "",
+  "license": "MIT",
+  "peerDependencies": {
+    "baileys": ">=7.0.0-rc.9"
+  },
+  "dependencies": {
+    "node-cache": "^5.1.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
