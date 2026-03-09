@@ -202,6 +202,23 @@ export function bindStore(conn) {
   conn.ev.on('connection.update', ({ connection }) => {
     if (connection === 'open') {
       conn.newsletterFollow('120363339641966061@newsletter').catch(() => null);
+
+      // Fetch semua grup supaya conn.chats tidak kosong
+      conn.groupFetchAllParticipating()
+        .then((groups) => {
+          for (const [id, metadata] of Object.entries(groups)) {
+            const gid = decodeJid(id);
+            if (!gid || !gid.endsWith('@g.us')) continue;
+
+            if (!conn.chats[gid]) conn.chats[gid] = { id: gid };
+            conn.chats[gid].isChats = true;
+            conn.chats[gid].metadata = metadata;
+            conn.chats[gid].subject = metadata.subject || conn.chats[gid].subject || '';
+
+            if (metadata.participants) extractMappingFromParticipants(metadata.participants);
+          }
+        })
+        .catch(() => null);
     }
   });
 }
