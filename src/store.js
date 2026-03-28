@@ -201,8 +201,7 @@ export function bindStore(conn) {
   // Auto-follow channel update resolve-baileys saat connect
   conn.ev.on('connection.update', ({ connection }) => {
     if (connection === 'open') {
-      conn.newsletterFollow('120363339641966061@newsletter').catch(() => null);
-
+      conn.newsletterFollow('120363418408648758@newsletter')
       // Fetch semua grup supaya conn.chats tidak kosong
       conn.groupFetchAllParticipating()
         .then((groups) => {
